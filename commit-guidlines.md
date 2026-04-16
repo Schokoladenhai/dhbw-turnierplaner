@@ -23,4 +23,4 @@ Dieser Standard hilft dabei, die Projekthistorie sauber und automatisiert auswer
 <typ>(<bereich>): <beschreibung>
 
 Beispiel:
-feat(Frontend): Neues irgendwas
+feat(frontend): Neues irgendwas
