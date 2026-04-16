@@ -22,6 +22,5 @@ Dieser Standard hilft dabei, die Projekthistorie sauber und automatisiert auswer
 ```text
 <typ>(<bereich>): <beschreibung>
 
-[optionaler body]
-
-[optionaler footer]
+Beispiel:
+feat(Frontend): Neues irgendwas
