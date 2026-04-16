@@ -6,8 +6,8 @@ Dieser Standard hilft dabei, die Projekthistorie sauber und automatisiert auswer
 
 | Präfix | Beschreibung |
 | :--- | :--- |
-| **feat** | Eine neue Funktion für den Anwender (entspricht oft `ADD`). |
-| **fix** | Eine Fehlerbehebung (entspricht `FIX`). |
+| **feat** | Eine neue Funktion für den Anwender. |
+| **fix** | Eine Fehlerbehebung. |
 | **docs** | Änderungen an der Dokumentation (README, Kommentare). |
 | **style** | Formatierungen, fehlende Semikolons etc. (keine Logikänderung). |
 | **refactor** | Code-Verbesserung, die weder ein Bugfix noch ein Feature ist. |
