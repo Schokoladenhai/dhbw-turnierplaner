@@ -11,7 +11,7 @@ Hier werden alle Anforderungen und Features gesammelt. Sobald ein Item in einen 
 
 ## Features / Tasks
 
-- [x] ✅ **Grundgerüst:** Repository aufsetzen und README erstellen
+- [x] E **Grundgerüst:** Repository aufsetzen und README erstellen
 
 ---
 Neue Feature als `- [ ] B Name` hinzufügen.*
