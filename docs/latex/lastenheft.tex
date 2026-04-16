@@ -1,0 +1,51 @@
+\section{Lastenheft: Web-App Turnierplaner}
+
+\subsection{Zielsetzung}
+Das Projekt umfasst die Entwicklung einer webbasierten Applikation zur Organisation und Verwaltung von Sportturnieren. Ziel ist die Automatisierung von Planungs- und Durchführungsprozessen (Baum-Generierung, Feldzuweisung) sowie die Echtzeit-Visualisierung des Turnierverlaufs.
+
+\subsection{Funktionale Anforderungen (FA)}
+
+\textbf{Team-Management}
+\begin{itemize}
+    \item Erfassung von Teamnamen und Spielerlisten (CRUD).
+    \item Bearbeitung und Löschung von Teams vor Turnierstart.
+\end{itemize}
+
+\textbf{Turniermodus \& Baum-Generierung}
+\begin{itemize}
+    \item Unterstützung von K.-o.-System (Single Elimination) und Gruppenphasen.
+    \item Automatisierte Generierung des Turnierbaums (zufällig oder manuelle Setzliste).
+    \item Handhabung von unpassenden Mannschaftszahlen (z.B. Freilose).
+\end{itemize}
+
+\textbf{Ressourcenplanung \& Schiedsrichter}
+\begin{itemize}
+    \item Definition und Zuweisung von Spielfeldern.
+    \item Zuweisung von Schiedsrichtern zu spezifischen Paarungen.
+    \item Konfiguration der Siegbedingungen (auf Zeit oder auf Punkte).
+\end{itemize}
+
+\textbf{Dashboard \& Monitoring}
+\begin{itemize}
+    \item Zentrales Dashboard zur Anzeige des aktuellen Turnierstands.
+    \item Spezifische Eingabemaske für Schiedsrichter zur Ergebniserfassung.
+    \item Automatische Ermittlung des Gewinners und Update des Turnierbaums.
+\end{itemize}
+
+\subsection{Nicht-funktionale Anforderungen (NFA)}
+\begin{itemize}
+    \item \textbf{Usability:} Responsive Design für die Nutzung auf mobilen Endgeräten am Spielfeldrand (Keine native Mobil-App).
+    \item \textbf{Zuverlässigkeit:} Persistente Speicherung der Turnierdaten zur Absicherung bei Verbindungsabbruch.
+\end{itemize}
+
+\subsection{Logik-Parameter}
+Für die Berechnung der Turnierstruktur gelten folgende mathematische Grundlagen:
+
+\begin{itemize}
+    \item \textbf{Anzahl der Spiele ($N$):} 
+    \[ N = n - 1 \] 
+    (wobei $n$ die Anzahl der Teams im K.-o.-System ist).
+    
+    \item \textbf{Rundenanzahl ($R$):} 
+    \[ R = \lceil \log_2(n) \rceil \]
+\end{itemize}
