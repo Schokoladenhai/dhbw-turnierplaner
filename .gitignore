@@ -39,3 +39,49 @@
 
 # debug information files
 *.dwo
+
+# LaTeX Tools
+latexmkrc
+.latexmkrc
+
+# Core LaTeX auxiliary files
+*.aux
+*.log
+*.toc
+*.out
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.pdfsync
+
+# Bibliography files (BibTeX/Biber)
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+
+# Index and Glossaries
+*.idx
+*.ind
+*.ilg
+*.glo
+*.gls
+*.glg
+*.ist
+*.acn
+*.acr
+*.alg
+
+# Lists and specific package outputs
+*.lof
+*.lot
+*.lol
+*.nav
+*.snm
+*.vrb
+*.maf
+*.mtc
+*.mtc[0-9]*
+
+#Output 
+*.pdf
