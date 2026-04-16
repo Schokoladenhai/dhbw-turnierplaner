@@ -18,7 +18,7 @@
 
 ---
 
-## Beispiel-Eintrag (Sprint 1)
+## Einträge
 ## Sprint 1: Grundgerüst (16.04.)
 **Ziel:** Das Gerüst für eine reibungslose bearbeitung des Softwareprojektes
 
