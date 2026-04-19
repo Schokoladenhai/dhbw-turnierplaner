@@ -83,5 +83,15 @@ latexmkrc
 *.mtc
 *.mtc[0-9]*
 
-#Output 
+#Output
 *.pdf
+
+# Build-Artefakte
+build/
+bin/
+obj/
+
+# Language Server Datenbank
+compile_commands.json
+.clangd/
+.cache/
