@@ -1,6 +1,7 @@
 #pragma once
 
 #include "team.hpp"
+#include "uuid.h"
 
 struct Score{
     int points1 = 0;
@@ -8,21 +9,25 @@ struct Score{
 };
 
 enum MatchStatus{
-    WAITING,
-    RUNNING,
-    FINISHED
+    MATCH_WAITING,
+    MATCH_RUNNING,
+    MATCH_FINISHED
 };
 
 class Match{
-    public:
+    private:
+    uuids::uuid id;
+    MatchStatus status = MATCH_WAITING;
     Team* team1;
     Team* team2;
     Score score;
-    MatchStatus status;
 
+    public:
     Match();
 
     void setResults(int points1, int points2);
     Team* getWinner() const;
+    uuids::uuid getId() const;
+    MatchStatus getStatus() const;
     bool isready() const;
 };

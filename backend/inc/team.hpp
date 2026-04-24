@@ -5,8 +5,15 @@
 #include "uuid.h"
 
 class Team{
-    public:
+    private:
     uuids::uuid id;
     std::string name;
     std::vector<std::string> players;
+
+    public:
+    Team();
+
+    uuids::uuid getId();
+    void addPlayer(std::string name);
+    void rmPlayer(std::string);
 };
