@@ -95,3 +95,4 @@ obj/
 compile_commands.json
 .clangd/
 .cache/
+.clangd
