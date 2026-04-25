@@ -1,78 +1,106 @@
 ```mermaid
 classDiagram
-    class Team {
-        uint id
-        std::string name
-        std::vector~std::string~ players 
+    direction TB
+
+    %% Enums and Structs
+    class TournamentStatus {
+        <<enumeration>>
+        TOURNAMENT_SETUP
+        TOURNAMENT_RUNNING
+        TOURNAMENT_FINISHED
     }
-    
-    class Field {
-        uuids::uuid id
-        std::string name
-        std::string location
-        
+
+    class MatchStatus {
+        <<enumeration>>
+        MATCH_WAITING
+        MATCH_RUNNING
+        MATCH_FINISHED
     }
-    
+
+    class Score {
+        <<struct>>
+        +int points1
+        +int points2
+    }
+
+    class MatchNode {
+        <<struct>>
+        +Match* match
+        +uint16_t Index
+    }
+
+    %% Main Classes
     class Tournament {
-        <<interface>>
-        bool teamsAsRefferees
-
-        std::unordered_map~uuid, team*~ teams
-        std::unordered_map~uuid, field*~ fields
-        std::vector~std::string~ refferees
-        loadTournamentFromJSON()
-        saveTournamentToJSON()
-        addTeam(Team)
-        deleteTeam(Team)
-        createTournament()
-        deleteTournament()
+        -TournamentStatus status
+        -unsigned int currentStageIndex
+        -string name
+        -unordered_map<uuid, unique_ptr<Team>> teams
+        -vector<unique_ptr<Stage>> stages
+        -runNextStage(vector<Team*> teams)
+        +Tournament()
+        +updateName(string newName)
+        +addStage(unique_ptr<Stage> stage)
+        +rmvStage(Stage*)
+        +addTeam(unique_ptr<Team> team)
+        +rmvTeam(uuid teamId)
+        +start()
+        +end()
+        +saveToJson()
+        +loadFromJson()
     }
-    
+
+    class Stage {
+        <<abstract>>
+        #unordered_map<uuid, unique_ptr<Match>> matches
+        #FinishedCallback onFinished
+        +virtual ~Stage()
+        +getMatches() unordered_map
+        +setOnFinished(FinishedCallback cb)
+        +virtual generateMatches(vector<uuid> participants)*
+        +virtual getAdvancingTeams()* vector<uuid>
+    }
+
+    class KoStage {
+        -unordered_map<uuid, MatchNode> matchTree
+        +generateMatches(vector<uuid> participants)
+        +getAdvancingTeams() vector<uuid>
+    }
+
     class Match {
-        <<interface>>
-        uuids::uuid id
-        uuids::uuid idTeam1
-        uuids::uuid idTeam2
-        uuids::uuid idField
-        int[2] score
-        uint startTime
-        uint maxGameTime 
-        Match()
-        getWinner() uuids::uuid
-        getLoser() uuids::uuid
-        getters_setters()
+        -uuid id
+        -MatchStatus status
+        -uuid team1Id
+        -uuid team2Id
+        -Score score
+        +Match()
+        +setResults(int points1, int points2)
+        +getWinner() uuid
+        +getId() uuid
+        +getStatus() MatchStatus
+        +isReady() bool
     }
 
-    class KoMatch{
-        uuid nextMatch
-
-        getters_setters()
-    }
-    class GroupMatch{
-        uuid nextMatch1
-        uuid nextMatch2
-
-        getters_setters()
-    }
-    
-    class KoTournament {
-        std::unordered_map~uuid, koMatch*~ matches
-    }
-     class GroupTournament {
-        
-        uint anzGroups
-        uint groupSize
-        std::vector~std::unordered_map<uuids::uuid groupMatch*>> groups
-        getGroupBest(int rangePlacment)
-
-
+    class Team {
+        -uuid id
+        -string name
+        -vector<string> players
+        +Team()
+        +getId() uuid
+        +addPlayer(string name)
+        +rmvPlayer(string name)
     }
 
-    Tournament <|..KoTournament : implenents
-    Tournament <|..GroupTournament : implenents
-    Match <|..KoMatch : implenents
-    Match <|..GroupMatch : implenents
-    Tournament "1" *-- "*" Match
-    Tournament "1" *-- "*" Field
-    Match "2" --o "" Team
+    %% Relationships
+    Tournament "1" *-- "many" Stage : owns (unique_ptr)
+    Tournament "1" *-- "many" Team : owns (unique_ptr)
+    Tournament ..> TournamentStatus : uses
+
+    Stage "1" *-- "many" Match : owns (unique_ptr)
+    Stage <|-- KoStage : inheritance
+
+    KoStage "1" o-- "many" MatchNode : contains
+    MatchNode --> Match : references
+
+    Match "1" *-- "1" Score : contains
+    Match ..> MatchStatus : uses
    ```
