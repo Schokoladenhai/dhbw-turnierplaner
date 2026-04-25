@@ -4,7 +4,6 @@
 #include "stage.hpp"
 #include "uuid.h"
 #include <cstdint>
-#include <memory>
 #include <unordered_map>
 #include <vector>
 
@@ -15,9 +14,9 @@ struct MatchNode{
 
 class KoStage: public Stage{
     private:
-    std::unordered_map<uuids::uuid, std::unique_ptr<MatchNode>> matchTree;
+    std::unordered_map<uuids::uuid, MatchNode> matchTree;
 
     public:
-    void generateMatches(const std::vector<Team*>& participants) override;
-    std::vector<Team*> getAdvancingTeams() const override;
+    void generateMatches(const std::vector<uuids::uuid>& participants) override;
+    std::vector<uuids::uuid> getAdvancingTeams() const override;
 };

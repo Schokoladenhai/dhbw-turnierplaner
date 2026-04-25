@@ -2,7 +2,9 @@
 
 #include "stage.hpp"
 #include "uuid.h"
+#include "team.hpp"
 #include <memory>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <memory.h>
@@ -16,21 +18,22 @@ enum TournamentStatus{
 class Tournament {
     private:
     TournamentStatus status = TOURNAMENT_SETUP;
-    uint currentStageIndex = 0;
-    std::string name;
+    unsigned int currentStageIndex = 0;
+    std::string name = "Tournament";
     std::unordered_map<uuids::uuid, std::unique_ptr<Team>> teams;
     std::vector<std::unique_ptr<Stage>> stages;
 
-    public:
-    Tournament();
-    // Übergibt auch [this](std::vector<Team*> teams) {this->runNextStage(teams)} als setOnFinished() und verschiebt den owner mit std::move zum Tournament
-    void addStage(std::unique_ptr<Stage> stage);
-    void rmStage(Stage*);
-    void addTeam(std::unique_ptr<Team> team);
-    void rmStage(uuids::uuid teamId);
     // Aufgerufen durch [this](std::vector<Team*> teams) {this->runNextStage(teams)}
     void runNextStage(std::vector<Team*> teams);
-    void reload();
+
+    public:
+    Tournament();
+    void updateName(std::string newName);
+    // Übergibt auch [this](std::vector<Team*> teams) {this->runNextStage(teams)} als setOnFinished() und verschiebt den owner mit std::move zum Tournament
+    void addStage(std::unique_ptr<Stage> stage);
+    void rmvStage(Stage*);
+    void addTeam(std::unique_ptr<Team> team);
+    void rmvTeam(uuids::uuid teamId);
 
     void start();
     void end();

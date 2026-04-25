@@ -15,5 +15,5 @@ class Team{
 
     uuids::uuid getId();
     void addPlayer(std::string name);
-    void rmPlayer(std::string);
+    void rmvPlayer(std::string);
 };
