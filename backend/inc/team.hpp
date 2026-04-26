@@ -11,9 +11,9 @@ class Team{
     std::vector<std::string> players;
 
     public:
-    Team();
+    Team(std::string name);
 
-    uuids::uuid getId();
-    void addPlayer(std::string name);
-    void rmvPlayer(std::string);
+    uuids::uuid getId() const;
+    void addPlayer(const std::string& name);
+    void rmvPlayer(const std::string& name);
 };
