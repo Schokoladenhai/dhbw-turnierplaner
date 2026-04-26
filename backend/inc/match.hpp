@@ -15,16 +15,22 @@ enum MatchStatus{
 
 class Match{
     private:
-    uuids::uuid id;
+    const uuids::uuid id;
     MatchStatus status = MATCH_WAITING;
-    uuids::uuid team1Id;
-    uuids::uuid team2Id;
-    Score score;
+    uuids::uuid team1Id{};
+    uuids::uuid team2Id{};
+    Score score{};
 
     public:
     Match();
 
-    void setResults(int points1, int points2);
+    void setTeam1(uuids::uuid team1);
+    void setTeam2(uuids::uuid team2);
+    uuids::uuid getTeam1() const;
+    uuids::uuid getTeam2() const;
+    void addPointTeam1();
+    void addPointTeam2();
+    bool advanceStatus();
     uuids::uuid getWinner() const;
     uuids::uuid getId() const;
     MatchStatus getStatus() const;
