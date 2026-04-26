@@ -19,7 +19,6 @@ class Stage {
     public:
     virtual ~Stage() = default;
 
-    std::unordered_map<uuids::uuid, Match*> getMatches() const;
     // Das Tournament setzt da etwas wie [this](std::vector<Team*> teams) {this->runNextStage(teams)}
     void setOnFinished(FinishedCallback cb);
 
