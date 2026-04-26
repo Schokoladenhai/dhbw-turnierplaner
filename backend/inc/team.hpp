@@ -6,7 +6,7 @@
 
 class Team{
     private:
-    uuids::uuid id;
+    const uuids::uuid id;
     std::string name;
     std::vector<std::string> players;
 

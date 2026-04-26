@@ -3,10 +3,7 @@
 #include "uuid.h"
 #include <string>
 
-Team::Team(std::string name){
-    this->name = name;
-    this->id = generateUuid();
-}
+Team::Team(std::string name) : name(name), id(generateUuid()){}
 
 uuids::uuid Team::getId() const {
     return id;
