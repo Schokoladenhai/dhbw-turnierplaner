@@ -22,15 +22,8 @@ uuids::uuid Match::getTeam2() const{
     return team2Id;
 }
 
-void Match::addPointTeam1(){
-    if(status == MATCH_RUNNING){
-        score.points1 += 1;
-    }
-}
-void Match::addPointTeam2(){
-    if(status == MATCH_RUNNING){
-        score.points2 += 1;
-    }
+void Match::setnewScore(Score& newScore){
+    score = newScore;
 }
 
 bool Match::advanceStatus(){
