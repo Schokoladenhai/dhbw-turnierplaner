@@ -1,22 +1,17 @@
 #pragma once
 
-#include "match.hpp"
 #include "stage.hpp"
+#include "match.hpp"
 #include "uuid.h"
-#include <cstdint>
-#include <unordered_map>
 #include <vector>
-
-struct MatchNode{
-    Match* match;
-    uint16_t Index;
-};
 
 class KoStage: public Stage{
     private:
-    std::unordered_map<uuids::uuid, MatchNode> matchTree;
+    std::vector<uuids::uuid> matchTree;
 
     public:
+    void matchUpdate(const uuids::uuid currentMatch, const Score& newScore, MatchStatus newStatus) override;
+    bool isValidMatchResult(const Score& score) const override;
     void generateMatches(const std::vector<uuids::uuid>& teamsIds) override;
     std::vector<uuids::uuid> getAdvancingTeams() const override;
 };
