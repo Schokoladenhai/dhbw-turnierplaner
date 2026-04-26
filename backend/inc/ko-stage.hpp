@@ -17,6 +17,6 @@ class KoStage: public Stage{
     std::unordered_map<uuids::uuid, MatchNode> matchTree;
 
     public:
-    void generateMatches(const std::vector<uuids::uuid>& participants) override;
+    void generateMatches(const std::vector<uuids::uuid>& teamsIds) override;
     std::vector<uuids::uuid> getAdvancingTeams() const override;
 };

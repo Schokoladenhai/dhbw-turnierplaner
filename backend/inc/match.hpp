@@ -24,8 +24,8 @@ class Match{
     public:
     Match();
 
-    void setTeam1(uuids::uuid team1);
-    void setTeam2(uuids::uuid team2);
+    void setTeam1(uuids::uuid team1Id);
+    void setTeam2(uuids::uuid team2Id);
     uuids::uuid getTeam1() const;
     uuids::uuid getTeam2() const;
     void addPointTeam1();

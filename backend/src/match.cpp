@@ -4,14 +4,14 @@
 
 Match::Match() : id(generateUuid()){}
 
-void Match::setTeam1(uuids::uuid team1){
+void Match::setTeam1(uuids::uuid team1Id){
     if(status == MATCH_WAITING){
-        team1Id = team1;
+        team1Id = team1Id;
     }
 }
-void Match::setTeam2(uuids::uuid team2){
+void Match::setTeam2(uuids::uuid team2Id){
     if(status == MATCH_WAITING){
-        team2Id = team2;
+        team2Id = team2Id;
     }
 }
 
@@ -47,6 +47,7 @@ bool Match::advanceStatus(){
             break;
         case MATCH_FINISHED:
         default:
+        break;
     }
     return false;
 }

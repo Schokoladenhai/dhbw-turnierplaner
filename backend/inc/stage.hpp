@@ -2,7 +2,6 @@
 
 #include "match.hpp"
 #include "uuid.h"
-#include "team.hpp"
 #include <functional>
 #include <unordered_map>
 #include <memory>
@@ -10,7 +9,7 @@
 
 class Stage {
 
-    using FinishedCallback = std::function<void(std::vector<Team*>)>;
+    using FinishedCallback = std::function<void(std::vector<uuids::uuid>)>;
 
     protected:
     std::unordered_map<uuids::uuid, std::unique_ptr<Match>> matches;
@@ -24,6 +23,6 @@ class Stage {
     // Das Tournament setzt da etwas wie [this](std::vector<Team*> teams) {this->runNextStage(teams)}
     void setOnFinished(FinishedCallback cb);
 
-    virtual void generateMatches(const std::vector<uuids::uuid>& participants) = 0;
+    virtual void generateMatches(const std::vector<uuids::uuid>& teamIds) = 0;
     virtual std::vector<uuids::uuid> getAdvancingTeams() const = 0;
 };
