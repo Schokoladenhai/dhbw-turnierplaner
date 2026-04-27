@@ -28,7 +28,7 @@ class Match{
     void setTeam2(uuids::uuid team2Id);
     uuids::uuid getTeam1() const;
     uuids::uuid getTeam2() const;
-    void setnewScore(Score& newScore);
+    void setnewScore(const Score& newScore);
     bool advanceStatus();
     uuids::uuid getWinner() const;
     uuids::uuid getId() const;

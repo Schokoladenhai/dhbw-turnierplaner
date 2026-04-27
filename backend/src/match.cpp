@@ -22,7 +22,7 @@ uuids::uuid Match::getTeam2() const{
     return team2Id;
 }
 
-void Match::setnewScore(Score& newScore){
+void Match::setnewScore(const Score& newScore){
     score = newScore;
 }
 
@@ -62,8 +62,8 @@ MatchStatus Match::getStatus() const{
 }
 
 bool Match::isReady() const{
-    if(!team1Id.is_nil() && !team2Id.is_nil()){
-        return true;
+    if(team1Id.is_nil() && team2Id.is_nil()){
+        return false;
     }
-    return false;
+    return true;
 }

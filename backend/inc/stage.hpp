@@ -21,10 +21,11 @@ class Stage {
 
     // Das Tournament setzt da etwas wie [this](std::vector<Team*> teams) {this->runNextStage(teams)}
     void setOnFinished(FinishedCallback cb);
-    virtual bool canAcceptMatchUpdate(const uuids::uuid currentMatch, const Score& newScore, MatchStatus newStatus) const;
-    virtual void matchUpdate(const uuids::uuid currentMatch, const Score& newScore, MatchStatus newStatus);
+    virtual bool canAcceptMatchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus) const;
+    virtual bool matchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus);
 
     virtual bool isValidMatchResult(const Score& score) const;
-    virtual void generateMatches(const std::vector<uuids::uuid>& teamIds) = 0;
+    virtual void generateMatches(const int totalteams, const int totalMatches) = 0;
+    virtual void populateMatches(const std::vector<uuids::uuid>& teamIds) = 0;
     virtual std::vector<uuids::uuid> getAdvancingTeams() const = 0;
 };

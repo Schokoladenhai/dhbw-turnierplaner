@@ -10,8 +10,9 @@ class KoStage: public Stage{
     std::vector<uuids::uuid> matchTree;
 
     public:
-    void matchUpdate(const uuids::uuid currentMatch, const Score& newScore, MatchStatus newStatus) override;
+    bool matchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus) override;
     bool isValidMatchResult(const Score& score) const override;
-    void generateMatches(const std::vector<uuids::uuid>& teamsIds) override;
+    void generateMatches(const int totalTeams, const int totalMatches) override;
+    void populateMatches(const std::vector<uuids::uuid>& teamIds) override;
     std::vector<uuids::uuid> getAdvancingTeams() const override;
 };
