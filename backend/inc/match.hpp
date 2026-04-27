@@ -10,7 +10,8 @@ struct Score{
 enum MatchStatus{
     MATCH_WAITING,
     MATCH_RUNNING,
-    MATCH_FINISHED
+    MATCH_FINISHED,
+    MATCH_SKIPED
 };
 
 class Match{
@@ -30,6 +31,7 @@ class Match{
     uuids::uuid getTeam2() const;
     void setnewScore(const Score& newScore);
     bool advanceStatus();
+    void skip();
     uuids::uuid getWinner() const;
     uuids::uuid getId() const;
     MatchStatus getStatus() const;

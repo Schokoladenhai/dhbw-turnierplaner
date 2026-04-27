@@ -39,16 +39,25 @@ bool Match::advanceStatus(){
             return true;
             break;
         case MATCH_FINISHED:
+        case MATCH_SKIPED:
         default:
         break;
     }
     return false;
 }
 
+void Match::skip(){
+    status = MATCH_SKIPED;
+}
+
 uuids::uuid Match::getWinner() const{
     if(status == MATCH_FINISHED){
         if(score.points1 > score.points2) return team1Id;
         if(score.points2 > score.points1) return team2Id;
+    }
+    if(status == MATCH_SKIPED){
+        if(team2Id.is_nil()) return team1Id;
+        if(team1Id.is_nil()) return team2Id;
     }
     return uuids::uuid{};
 }

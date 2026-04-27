@@ -10,17 +10,18 @@ void Stage::setOnFinished(Stage::FinishedCallback cb){
 bool Stage::canAcceptMatchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus) const{
     auto it = matches.find(currentMatch);
     if(it != matches.end()){
-        Match* current = it->second.get();
-        if (current->getStatus() == MATCH_FINISHED) {
+        Match* match = it->second.get();
+        MatchStatus matchStatus = match->getStatus();
+        if (matchStatus == MATCH_FINISHED) {
             return false;
         }
 
-        if (newStatus == MATCH_FINISHED && current->getStatus() == MATCH_RUNNING) {
+        if (newStatus == MATCH_FINISHED && matchStatus == MATCH_RUNNING) {
             return isValidMatchResult(newScore);
         }
 
-        if(current->getStatus() == MATCH_WAITING && newStatus == MATCH_RUNNING){
-            return current->isReady();
+        if(matchStatus == MATCH_WAITING && newStatus == MATCH_RUNNING){
+            return match->isReady();
         }
     }
 

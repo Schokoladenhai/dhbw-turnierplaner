@@ -14,11 +14,14 @@ bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore,
         Match* match = it->second.get();
         match->setnewScore(newScore);
 
+        if(newStatus == MATCH_SKIPED){
+            match->skip();
+        }
         if(newStatus != match->getStatus()){
             match->advanceStatus();
         }
 
-        if(newStatus == MATCH_FINISHED){
+        if(newStatus == MATCH_FINISHED || newStatus == MATCH_SKIPED){
             uuids::uuid winner = match->getWinner();
             if(winner.is_nil()){
                 return false;
@@ -38,8 +41,8 @@ bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore,
                     return true;
                 }
                 auto itNewMatch = matches.find(matchTree[newIndex]);
-                if(it != matches.end()){
-                    Match* newMatch = it->second.get();
+                if(itNewMatch != matches.end()){
+                    Match* newMatch = itNewMatch->second.get();
                     if(newMatch->getTeam1().is_nil()){
                         newMatch->setTeam1(winner);
                     }else{
@@ -59,7 +62,7 @@ bool KoStage::isValidMatchResult(const Score& score) const{
 
 void KoStage::generateMatches(const int totalTeams, const int totalMatches) {
     matches.reserve(totalMatches);
-    matchTree.reserve(totalTeams);
+    matchTree.reserve(totalMatches);
 
     for (int i = 0; i < totalMatches; ++i) {
         auto new_match = std::make_unique<Match>();
@@ -70,12 +73,32 @@ void KoStage::generateMatches(const int totalTeams, const int totalMatches) {
 }
 
 void KoStage::populateMatches(const std::vector<uuids::uuid>& teamIds) {
+    if (teamIds.empty() || matchTree.empty()) return;
 
+    int totalTeams = teamIds.size();
+    int numFirstRoundMatches = (totalTeams + 1) / 2;
+
+    int firstRoundStartIndex = matchTree.size() - numFirstRoundMatches;
+    for (int i = 0; i < numFirstRoundMatches; ++i) {
+        uuids::uuid matchId = matchTree[firstRoundStartIndex + i];
+        auto it = matches.find(matchId);
+
+        if (it != matches.end()) {
+            Match* match = it->second.get();
+
+            match->setTeam1(teamIds[i * 2]);
+
+            if ((i * 2 + 1) < totalTeams) {
+                match->setTeam2(teamIds[i * 2 + 1]);
+            }else{
+                matchUpdate(match->getId(), {}, MATCH_SKIPED);
+            }
+        }
+    }
 }
 
 std::vector<uuids::uuid> KoStage::getAdvancingTeams() const {
-    std::vector<uuids::uuid> winner{};
-    winner.reserve(1);
+    std::vector<uuids::uuid> winner{uuids::uuid{}};
     if(matchTree.empty() || matches.empty()){
         return winner;
     }
