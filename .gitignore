@@ -96,3 +96,6 @@ compile_commands.json
 .clangd/
 .cache/
 .clangd
+.vscode/tasks.json
+.vscode/settings.json
+.vscode/launch.json
