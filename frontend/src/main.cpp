@@ -1,7 +1,15 @@
-#include <iostream>
+#include <QApplication>
+#include <QPushButton>
+#include <QDebug> // Wichtig für Textausgaben
 
-int main() {
-    // Entry point of the program
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    // Qt's Version von std::cout
+    qDebug() << "Frontend-App gestartet!";
+
+    QPushButton button("Hallo DHBW!");
+    button.show();
+
+    return app.exec();
 }

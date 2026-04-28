@@ -1,4 +1,7 @@
 {
-    "cmake.buildDirectory": "${sourceDir}/build",
-    "cmake.sourceDirectory": "${workspaceFolder}/frontend"
+    "cmake.sourceDirectory": "${workspaceFolder}/frontend",
+    "cmake.buildDirectory": "${workspaceFolder}/frontend/build",
+    "cmake.configureArgs": [
+        "-DCMAKE_PREFIX_PATH=C:/Qt/6.11.0/mingw_64" 
+    ]
 }
