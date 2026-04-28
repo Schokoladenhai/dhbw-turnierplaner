@@ -88,15 +88,29 @@ latexmkrc
 
 # Build-Artefakte
 build/
+build-*/
 bin/
 obj/
+out/
 
-# Language Server Datenbank
+# CMake & Qt Spezifisches
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+CMakeUserPresets.json
+*_autogen/
+*.qm
+*.prl
+
+# Language Server Datenbank & IDE
 compile_commands.json
 .clangd/
 .cache/
 .clangd
-.vscode/tasks.json
-.vscode/settings.json
-.vscode/launch.json
-.vscode/c_cpp_properties.json
+.vscode/
+
+# OS-spezifische Dateien
+.DS_Store
+Thumbs.db
