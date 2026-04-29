@@ -27,15 +27,15 @@ class Tournament {
     Tournament();
     void updateName(std::string newName);
     // Übergibt auch [this](std::vector<uuids::uuid> teams) {this->runNextStage(teams)} als setOnFinished() und verschiebt den owner mit std::move zum Tournament
-    void addStage(std::unique_ptr<Stage> stage);
-    void rmvStage(Stage*);
+    void pushStage(std::unique_ptr<Stage> stage);
+    void popStage();
     void addTeam(std::unique_ptr<Team> team);
     void rmvTeam(uuids::uuid teamId);
 
     void start();
     // Aufgerufen durch [this](std::vector<uuids::uuid> teams) {this->runNextStage(teams)}
     void runNextStage(std::vector<uuids::uuid> teamIds);
-    void end();
+    void end(std::vector<uuids::uuid> teamIds);
 
     void saveToJson();
     void loadFromJson();

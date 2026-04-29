@@ -4,6 +4,8 @@
 #include <memory>
 #include "uuid.h"
 #include <vector>
+#include <algorithm>
+#include <utility>
 
 bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus){
     if(!canAcceptMatchUpdate(currentMatch, newScore, newStatus)){
