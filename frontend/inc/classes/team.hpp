@@ -15,6 +15,7 @@ private:
 public:
     // Konstruktor
     Team(std::string teamName, uuids::uuid teamId);
+    Team();
 
     // Getter
     uuids::uuid getId() const;

@@ -2,6 +2,8 @@
 
 Team::Team(std::string teamName, uuids::uuid teamId) : name(teamName), id(teamId) {}
 
+Team::Team() : Team("Unnamed Team", uuids::uuid{}) {}
+
 uuids::uuid Team::getId() const {
     return id;
 }
