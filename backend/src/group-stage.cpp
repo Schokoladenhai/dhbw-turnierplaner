@@ -12,8 +12,4 @@ void generateMatches(const int totalTeams, const int totalMatches) {
         return;
     }
 
-    // Ab hier kannst du wie gewohnt fortfahren:
-    // Teams in einen Vector füllen, mischen und auf die Gruppen verteilen.
-    std::cout << "Turnier-Struktur: " << numGroups << " Gruppen mit je "
-              << teamsPerGroup << " Teams.\n";
 }
