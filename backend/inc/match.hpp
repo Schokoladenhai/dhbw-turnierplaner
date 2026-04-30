@@ -1,6 +1,7 @@
 #pragma once
 
 #include "uuid.h"
+#include "json.hpp"
 
 struct Score{
     int points1 = 0;
@@ -13,6 +14,13 @@ enum MatchStatus{
     MATCH_FINISHED,
     MATCH_SKIPED
 };
+
+NLOHMANN_JSON_SERIALIZE_ENUM(MatchStatus, {
+    {MATCH_WAITING, "WAITING"},
+    {MATCH_RUNNING, "RUNNING"},
+    {MATCH_FINISHED, "FINISHED"},
+    {MATCH_SKIPED, "SKIPPED"},
+})
 
 class Match{
     private:
@@ -36,4 +44,7 @@ class Match{
     uuids::uuid getId() const;
     MatchStatus getStatus() const;
     bool isReady() const;
+
+    using json = nlohmann::json;
+    json toJson() const;
 };

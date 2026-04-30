@@ -1,5 +1,7 @@
 #include "ko-stage.hpp"
 #include "match.hpp"
+#include "json.hpp"
+#include <cstddef>
 #include <iterator>
 #include <memory>
 #include "uuid.h"
@@ -112,4 +114,24 @@ std::vector<uuids::uuid> KoStage::getAdvancingTeams() const {
         }
     }
     return winner;
+}
+
+using json = nlohmann::json;
+json KoStage::toJson()const{
+    json j;
+    j["type"] = "ko";
+    j["matches"] = json::array();
+
+    size_t index = 0;
+    for(auto const& matchId : matchTree){
+        Match* match = getMatchById(matchId);
+        if(match != nullptr){
+            json matchJson = match->toJson();
+            matchJson["index"] = index + 1;
+            j["matches"].push_back(matchJson);
+        }
+        ++index;
+    }
+
+    return j;
 }

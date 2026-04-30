@@ -3,6 +3,15 @@
 #include "uuid.h"
 #include <utility>
 
+Match* Stage::getMatchById(uuids::uuid id) const{
+    Match* match = nullptr;
+    auto it = matches.find(id);
+    if(it != matches.end()){
+        match = it->second.get();
+    }
+    return match;
+}
+
 void Stage::setOnFinished(Stage::FinishedCallback cb){
     onFinished = std::move(cb);
 }

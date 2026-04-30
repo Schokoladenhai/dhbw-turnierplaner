@@ -3,6 +3,7 @@
 #include "stage.hpp"
 #include "match.hpp"
 #include "uuid.h"
+#include "json.hpp"
 #include <vector>
 
 class KoStage: public Stage{
@@ -15,4 +16,7 @@ class KoStage: public Stage{
     void generateMatches(const int totalTeams, const int totalMatches) override;
     void populateMatches(const std::vector<uuids::uuid>& teamIds) override;
     std::vector<uuids::uuid> getAdvancingTeams() const override;
+
+    using json = nlohmann::json;
+    json toJson() const override;
 };

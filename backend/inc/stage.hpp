@@ -2,6 +2,7 @@
 
 #include "match.hpp"
 #include "uuid.h"
+#include "json.hpp"
 #include <cstddef>
 #include <functional>
 #include <unordered_map>
@@ -20,6 +21,8 @@ class Stage {
     public:
     virtual ~Stage() = default;
 
+    Match* getMatchById(uuids::uuid id) const;
+
     // Das Tournament setzt da etwas wie [this](std::vector<Team*> teams) {this->runNextStage(teams)}
     void setOnFinished(FinishedCallback cb);
     virtual bool canAcceptMatchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus) const;
@@ -29,4 +32,7 @@ class Stage {
     virtual void generateMatches(const int totalteams, const int totalMatches) = 0;
     virtual void populateMatches(const std::vector<uuids::uuid>& teamIds) = 0;
     virtual std::vector<uuids::uuid> getAdvancingTeams() const = 0;
+
+    using json = nlohmann::json;
+    virtual json toJson() const = 0;
 };

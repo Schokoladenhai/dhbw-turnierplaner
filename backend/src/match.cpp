@@ -1,6 +1,8 @@
 #include "match.hpp"
 #include "uuid-gen.hpp"
+#include "json.hpp"
 #include "uuid.h"
+#include <string>
 
 Match::Match() : id(generateUuid()){}
 
@@ -75,4 +77,21 @@ bool Match::isReady() const{
         return false;
     }
     return true;
+}
+
+using json = nlohmann::json;
+json Match::toJson() const {
+    json j;
+    std::string t1 = uuids::to_string(getTeam1());
+    std::string t2 = uuids::to_string(getTeam2());
+
+    j["id"] = uuids::to_string(getId());
+    j["status"] = status;
+    j["team1"] = t1;
+    j["team2"] = t2;
+
+    j["score"][t1] = score.points1;
+    j["score"][t2] = score.points2;
+
+    return j;
 }

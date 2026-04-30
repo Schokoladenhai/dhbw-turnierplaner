@@ -3,6 +3,7 @@
 #include "stage.hpp"
 #include "uuid.h"
 #include "team.hpp"
+#include "json.hpp"
 #include <memory>
 #include <unordered_map>
 #include <string>
@@ -15,6 +16,12 @@ enum TournamentStatus{
     TOURNAMENT_FINISHED
 };
 
+NLOHMANN_JSON_SERIALIZE_ENUM(TournamentStatus, {
+    {TOURNAMENT_SETUP, "SETUP"},
+    {TOURNAMENT_RUNNING, "RUNNING"},
+    {TOURNAMENT_FINISHED, "FINISHED"}
+})
+
 class Tournament {
     private:
     TournamentStatus status = TOURNAMENT_SETUP;
@@ -26,6 +33,7 @@ class Tournament {
     public:
     Tournament();
     void updateName(std::string newName);
+    TournamentStatus getStatus();
     // Übergibt auch [this](std::vector<uuids::uuid> teams) {this->runNextStage(teams)} als setOnFinished() und verschiebt den owner mit std::move zum Tournament
     void pushStage(std::unique_ptr<Stage> stage);
     void popStage();
@@ -33,11 +41,12 @@ class Tournament {
     void rmvTeam(uuids::uuid teamId);
     Stage* getCurrentStage() const;
 
-    void start();
+    bool start();
     // Aufgerufen durch [this](std::vector<uuids::uuid> teams) {this->runNextStage(teams)}
     void runNextStage(std::vector<uuids::uuid> teamIds);
     void end(std::vector<uuids::uuid> teamIds);
 
-    void saveToJson();
+    using json = nlohmann::json;
+    json toJson() const;
     void loadFromJson();
 };

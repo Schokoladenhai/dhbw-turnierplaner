@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "uuid.h"
+#include "json.hpp"
 
 class Team{
     private:
@@ -16,4 +17,7 @@ class Team{
     uuids::uuid getId() const;
     void addPlayer(const std::string& name);
     void rmvPlayer(const std::string& name);
+
+    using json = nlohmann::json;
+    json toJson() const;
 };

@@ -17,6 +17,7 @@ stage.hpp
 match.hpp
 ko-stage.hpp
 group-stage.hpp
+json.hpp
 )
 
 set(SOURCE_FILES
