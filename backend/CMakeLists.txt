@@ -1,22 +1,46 @@
 cmake_minimum_required(VERSION 3.10)
 
-# 1. Projektname und Sprache definieren
 project(TurnierTiegerServer VERSION 1.0 LANGUAGES CXX)
 
-# 2. WICHTIG: Erzeugt die compile_commands.json für Zed/clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# 3. C++ Standard festlegen (z.B. C++17 oder C++20)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 4. Alle Quelldateien aus src/ sammeln
-# (Ersetze 'main.cpp', falls deine Datei anders heißt)
-file(GLOB_RECURSE SOURCES "src/*.cpp")
+set(HEADER_FILES
+uuid.h
+uuid-gen.hpp
+tournament.hpp
+team.hpp
+stage.hpp
+match.hpp
+ko-stage.hpp
+group-stage.hpp
+)
+
+set(SOURCE_FILES
+main.cpp
+uuid-gen.cpp
+tournament.cpp
+team.cpp
+stage.cpp
+match.cpp
+ko-stage.cpp
+group-stage.cpp
+)
+
+list(TRANSFORM HEADER_FILES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/inc/")
+list(TRANSFORM SOURCE_FILES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/src/")
+
 
 # 5. Das ausführbare Programm (Executable) definieren
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME})
 
-# 6. Den Header-Ordner 'inc/' bekannt machen
-# PUBLIC sorgt dafür, dass clangd den Pfad sofort findet
-target_include_directories(${PROJECT_NAME} PUBLIC inc)
+target_sources(${PROJECT_NAME}
+    PRIVATE
+        ${SOURCE_FILES}
+        ${HEADER_FILES}
+)
+
+target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")
