@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
-#include <memory.h>
+#include <memory>
 
 enum TournamentStatus{
     TOURNAMENT_SETUP,

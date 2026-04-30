@@ -6,12 +6,12 @@ Match::Match() : id(generateUuid()){}
 
 void Match::setTeam1(uuids::uuid team1Id){
     if(status == MATCH_WAITING){
-        team1Id = team1Id;
+        this->team1Id = team1Id;
     }
 }
 void Match::setTeam2(uuids::uuid team2Id){
     if(status == MATCH_WAITING){
-        team2Id = team2Id;
+        this->team2Id = team2Id;
     }
 }
 
@@ -71,7 +71,7 @@ MatchStatus Match::getStatus() const{
 }
 
 bool Match::isReady() const{
-    if(team1Id.is_nil() && team2Id.is_nil()){
+    if(team1Id.is_nil() || team2Id.is_nil()){
         return false;
     }
     return true;

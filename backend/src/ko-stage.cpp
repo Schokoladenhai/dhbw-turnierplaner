@@ -37,7 +37,7 @@ bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore,
                     if(winner[0].is_nil()){
                         return false;
                     }
-                    if(onFinished){
+                    if(onFinished && newStatus == MATCH_FINISHED){
                         onFinished(winner);
                     }
                     return true;

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # 1. Projektname und Sprache definieren
-project(MeinProjekt VERSION 1.0 LANGUAGES CXX)
+project(TurnierTiegerServer VERSION 1.0 LANGUAGES CXX)
 
 # 2. WICHTIG: Erzeugt die compile_commands.json für Zed/clangd
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

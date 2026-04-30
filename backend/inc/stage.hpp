@@ -2,6 +2,7 @@
 
 #include "match.hpp"
 #include "uuid.h"
+#include <cstddef>
 #include <functional>
 #include <unordered_map>
 #include <memory>
@@ -12,9 +13,9 @@ class Stage {
     using FinishedCallback = std::function<void(std::vector<uuids::uuid>)>;
 
     protected:
-    std::unordered_map<uuids::uuid, std::unique_ptr<Match>> matches;
+    std::unordered_map<uuids::uuid, std::unique_ptr<Match>> matches{};
     // Wird aufgerufen nach dem letzten Match mit if(onFinished){onFinished(getAdvancingTeams())}
-    FinishedCallback onFinished;
+    FinishedCallback onFinished = NULL;;
 
     public:
     virtual ~Stage() = default;

@@ -7,7 +7,7 @@
 
 class KoStage: public Stage{
     private:
-    std::vector<uuids::uuid> matchTree;
+    std::vector<uuids::uuid> matchTree{};
 
     public:
     bool matchUpdate(const uuids::uuid currentMatch, const Score& newScore, const MatchStatus newStatus) override;
