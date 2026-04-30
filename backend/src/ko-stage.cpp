@@ -110,7 +110,7 @@ std::vector<uuids::uuid> KoStage::getAdvancingTeams() const {
     if(it != matches.end()){
         Match* final = it->second.get();
         if(final->getStatus() == MATCH_FINISHED){
-            winner.push_back(final->getWinner());
+            winner[0] = final->getWinner();
         }
     }
     return winner;
@@ -120,17 +120,14 @@ using json = nlohmann::json;
 json KoStage::toJson()const{
     json j;
     j["type"] = "ko";
-    j["matches"] = json::array();
 
     size_t index = 0;
     for(auto const& matchId : matchTree){
+        ++index;
         Match* match = getMatchById(matchId);
         if(match != nullptr){
-            json matchJson = match->toJson();
-            matchJson["index"] = index + 1;
-            j["matches"].push_back(matchJson);
+            j["matches"][std::to_string(index)] = match->toJson();
         }
-        ++index;
     }
 
     return j;
