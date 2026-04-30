@@ -32,6 +32,13 @@ void Tournament::rmvTeam(uuids::uuid teamId){
     }
 }
 
+Stage* Tournament::getCurrentStage() const{
+    if(currentStageIndex >= stages.size()){
+        return nullptr;
+    }
+    return stages[currentStageIndex].get();
+}
+
 void Tournament::start(){}
 void Tournament::runNextStage(std::vector<uuids::uuid> teamIds){
     if(currentStageIndex < stages.size() - 1){

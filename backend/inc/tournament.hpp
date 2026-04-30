@@ -31,6 +31,7 @@ class Tournament {
     void popStage();
     void addTeam(std::unique_ptr<Team> team);
     void rmvTeam(uuids::uuid teamId);
+    Stage* getCurrentStage() const;
 
     void start();
     // Aufgerufen durch [this](std::vector<uuids::uuid> teams) {this->runNextStage(teams)}
