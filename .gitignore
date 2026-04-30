@@ -90,6 +90,7 @@ latexmkrc
 build/
 bin/
 obj/
+__cmake_systeminformation/
 
 # Language Server Datenbank
 compile_commands.json
