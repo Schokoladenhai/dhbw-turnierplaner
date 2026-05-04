@@ -6,8 +6,7 @@ set(CMAKE_CXX_COMPILER "C:/Qt/Tools/mingw1310_64/bin/g++.exe")
 
 project(DHBW_Turnierplaner_Frontend LANGUAGES CXX)
 
-# --- 2. C++ Standard auf 20 erhöhen ---
-# Dies aktiviert std::span und entfernt die Abhängigkeit zur GSL
+# --- 1. C++ Standard definieren ---
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -26,15 +25,19 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_PREFIX_PATH "C:/Qt/6.11.0/mingw_64" CACHE PATH "Pfad zu Qt" FORCE)
+# --- 3. Qt-Pfad erzwingen ---
+# Dies umgeht fehlerhafte oder fehlende VS Code Einstellungen
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.11.0/mingw_64" CACHE PATH "Pfad zu Qt" FORCE)
+endif()
 
 # --- 5. Qt-Bibliotheken suchen ---
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-# --- 6. Quelldateien sammeln ---
-file(GLOB_RECURSE FRONTEND_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-file(GLOB_RECURSE FRONTEND_HEADERS CONFIGURE_DEPENDS "inc/*.hpp")
-file(GLOB_RECURSE FRONTEND_UIS CONFIGURE_DEPENDS "src/*.ui")
+# --- 5. Quelldateien sammeln ---
+# Sucht automatisch nach .cpp und .ui Dateien im src-Ordner
+file(GLOB_RECURSE FRONTEND_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE FRONTEND_UIS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.ui")
 
 # --- 7. Das ausführbare Programm (Target) erstellen ---
 add_executable(frontend_app WIN32
@@ -43,11 +46,8 @@ add_executable(frontend_app WIN32
     ${FRONTEND_UIS}
 )
 
-# --- 8. Verzeichnisse einbinden ---
-target_include_directories(frontend_app PRIVATE 
-    inc 
-    ${CMAKE_CURRENT_BINARY_DIR}
-)
+# --- 7. Eigene Header-Verzeichnisse einbinden ---
+target_include_directories(frontend_app PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/inc")
 
 # --- 9. Bibliotheken verlinken ---
 # Korrektur: Das Target der Bibliothek heißt 'uuid', nicht 'stduuid::stduuid'
@@ -56,6 +56,8 @@ target_link_libraries(frontend_app PRIVATE
     uuid
 )
 
-# --- 10. Debug-Ausgabe ---
-message(STATUS "Compiler: ${CMAKE_CXX_COMPILER}")
-message(STATUS "Standard: C++${CMAKE_CXX_STANDARD}")
+# --- 9. Windows-spezifische Einstellungen ---
+# Verhindert, dass sich beim Start der Qt-App ein leeres schwarzes CMD-Fenster öffnet
+if(WIN32)
+    target_link_options(frontend_app PRIVATE -mwindows)
+endif()

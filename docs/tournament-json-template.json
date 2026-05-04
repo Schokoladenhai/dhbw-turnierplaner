@@ -1,0 +1,29 @@
+{
+    "name": "",
+    "status": "",
+    "stageindex": "",
+    "stages": [
+        {
+            "type": "",
+            "matches": {
+                "1": {
+                    "id": "",
+                    "status": "",
+                    "team1": "",
+                    "team2": "",
+                    "score": {
+                        "<id die in team1 liegt>": "",
+                        "<id die in team2 liegt>": ""
+                    }
+                }
+            }
+        }
+    ],
+    "teams": [
+        {
+            "id": "",
+            "name": "",
+            "players": ["", "", ""]
+        }
+    ]
+}

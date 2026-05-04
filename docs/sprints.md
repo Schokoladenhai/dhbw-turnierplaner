@@ -36,3 +36,23 @@
 ### 💡 Retrospektive
 - **Gut gelaufen:** Alles
 - **Probleme:** Gewöhnen an die commit Guidlines.
+
+## Sprint 2: Turnierklassen (Zeitraum: 19.04. - 04.05.)
+**Ziel:** *Die unterliegende klassenstruktur zum speichern des turniers*
+
+### 📋 Planung (Was haben wir uns vorgenommen?)
+- [x] tournament klasse
+- [x] stage Klasse
+- [x] ko-stage Klasse
+- [ ] group-stage Klasse
+- [x] team klasse
+- [x] match klasse
+
+### 📝 Review (Was wurde erreicht?)
+- **Status:** teils erreicht
+- **Ergebnis:** Die Wichtigsten klassen bestehen und funktionieren
+
+### 💡 Retrospektive (Was haben wir gelernt?)
+- **Gut gelaufen:** Alles
+- **Probleme/Blocker:** 
+- **Anpassungen für den nächsten Sprint:** Das laden eines turniers aus einer Json fehlt noch so wie weitere arten von stages neben ko-stage
