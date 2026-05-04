@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(DHBW_Turnierplaner_Frontend LANGUAGES CXX)
 
 # --- 1. C++ Standard definieren ---
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # --- 2. Qt-Automatisierung aktivieren ---
@@ -13,15 +13,17 @@ set(CMAKE_AUTORCC ON)
 
 # --- 3. Qt-Pfad erzwingen ---
 # Dies umgeht fehlerhafte oder fehlende VS Code Einstellungen
-set(CMAKE_PREFIX_PATH "C:/Qt/6.11.0/mingw_64" CACHE PATH "Pfad zu Qt" FORCE)
+if(WIN32)
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.11.0/mingw_64" CACHE PATH "Pfad zu Qt" FORCE)
+endif()
 
 # --- 4. Qt-Bibliotheken suchen ---
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # --- 5. Quelldateien sammeln ---
 # Sucht automatisch nach .cpp und .ui Dateien im src-Ordner
-file(GLOB_RECURSE FRONTEND_SOURCES "src/*.cpp")
-file(GLOB_RECURSE FRONTEND_UIS "src/*.ui")
+file(GLOB_RECURSE FRONTEND_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+file(GLOB_RECURSE FRONTEND_UIS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.ui")
 
 # Sicherheitsüberprüfung, damit add_executable nicht abstürzt
 if(NOT FRONTEND_SOURCES)
@@ -35,7 +37,7 @@ add_executable(frontend_app
 )
 
 # --- 7. Eigene Header-Verzeichnisse einbinden ---
-target_include_directories(frontend_app PRIVATE inc)
+target_include_directories(frontend_app PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/inc")
 
 # --- 8. Qt mit dem Target verlinken ---
 target_link_libraries(frontend_app PRIVATE Qt6::Widgets)
