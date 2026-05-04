@@ -57,6 +57,8 @@ bool Tournament::start(){
     Stage* nextStage = getCurrentStage();
     nextStage->populateMatches(teamIds);
 
+    status = TOURNAMENT_RUNNING;
+
     return true;
 }
 void Tournament::runNextStage(std::vector<uuids::uuid> teamIds){
@@ -68,7 +70,9 @@ void Tournament::runNextStage(std::vector<uuids::uuid> teamIds){
         end(teamIds);
     }
 }
-void Tournament::end(std::vector<uuids::uuid> teamIds){}
+void Tournament::end(std::vector<uuids::uuid> teamIds){
+    status = TOURNAMENT_FINISHED;
+}
 
 using json = nlohmann::json;
 json Tournament::toJson()const{
