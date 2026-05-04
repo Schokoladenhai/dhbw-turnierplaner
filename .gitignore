@@ -91,7 +91,11 @@ build/
 build-*/
 bin/
 obj/
+<<<<<<< HEAD
+__cmake_systeminformation/
+=======
 out/
+>>>>>>> main
 
 # CMake & Qt Spezifisches
 CMakeCache.txt
