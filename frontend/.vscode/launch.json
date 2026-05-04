@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Frontend: Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/frontend/build/frontend_app.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/frontend",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:/Strawberry/c/bin/gdb.exe",
+            "preLaunchTask": "CMake Build Frontend"
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "configurePresets": [
+      {
+        "name": "mein-lokaler-build",
+        "binaryDir": "${sourceDir}/build",
+        "generator": "Ninja"
+      }
+    ]
+  }
