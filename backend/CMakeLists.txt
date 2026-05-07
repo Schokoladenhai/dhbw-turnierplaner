@@ -18,6 +18,7 @@ match.hpp
 ko-stage.hpp
 group-stage.hpp
 json.hpp
+tournament-builder.hpp
 )
 
 set(SOURCE_FILES
@@ -29,6 +30,7 @@ stage.cpp
 match.cpp
 ko-stage.cpp
 group-stage.cpp
+tournament-builder.cpp
 )
 
 list(TRANSFORM HEADER_FILES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/inc/")
