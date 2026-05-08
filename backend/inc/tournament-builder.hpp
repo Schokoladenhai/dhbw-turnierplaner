@@ -4,6 +4,7 @@
 #include "stage.hpp"
 #include "uuid.h"
 #include "team.hpp"
+#include "json.hpp"
 #include <memory>
 #include <unordered_map>
 #include <string>
@@ -22,7 +23,9 @@ class TournamentBuilder {
     TournamentBuilder& addTeams(std::vector<std::unique_ptr<Team>> newTeams);
     TournamentBuilder& addStage(std::unique_ptr<Stage> newStage);
     TournamentBuilder& addStages(std::vector<std::unique_ptr<Stage>> newStages);
-    TournamentBuilder& loadJson();
+
+    using json = nlohmann::json;
+    TournamentBuilder& loadJson(json tournamentJson);
 
     std::unique_ptr<Tournament> build();
 
