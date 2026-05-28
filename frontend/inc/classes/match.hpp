@@ -7,12 +7,13 @@
 #include "uuid.h"
 #include "team.hpp"
 class Match {
-private:
+public:
     std::string name;
     uuids::uuid id;
     Team team1;
     Team team2;
     std::array<uint8_t, 2> score; // score[0] für team1, score[1] für team2
+    int stage; // Runde, in der das Match stattfindet
 
 public:
     // Konstruktor

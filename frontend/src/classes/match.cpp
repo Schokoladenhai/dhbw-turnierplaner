@@ -23,9 +23,9 @@ void Match::setScore(uint8_t team1Score, uint8_t team2Score) {
 }
 
 void Match::addTeam(const Team team) {
-    if (team1.getName().empty()) {
+    if (team1.getId()==uuids::uuid()) { // Überprüfen, ob team1 leer ist
         team1 = team;
-    } else if (team2.getName().empty()) {
+    } else if (team2.getId()==uuids::uuid()) { // Überprüfen, ob team2 leer ist
         team2 = team;
     }
 }   

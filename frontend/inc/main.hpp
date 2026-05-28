@@ -1,3 +1,3 @@
-#include "gui/windows/MainWindow.hpp"
+#include "windows/mainwindow.h"
 #include "classes/team.hpp"
 
