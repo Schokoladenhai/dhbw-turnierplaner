@@ -1,0 +1,20 @@
+\section{Projektbeschreibung}
+Das Projekt "Turnierplaner" mit dem Arbeitstitel "TurnierTieger" umfasst die Konzeption und Entwicklung einer webbasierten Applikation zur automatisierten Organisation, Verwaltung und Durchführung von Sporttunieren. Es ist als praxisorientiertes Softwareprojekt im Rahmen der Vorlesung "Sofwareengineering 1" entstanden.
+\subsection{Zielsetzung und Kernaspekte}
+Das Hauptaugenmerk dieses Projektes liegt auf der digitalisierung und Automatisierung typischer planerischen Aufgaben wie die Erfassung und einteilung von Teams, und anderen zumeiost fehleranfälligen oder aufwändigen Tätigkeiten bei der Turierplanung, wie das Generieren eines Turnierbaumes.
+\subsection{Team und Spielermanagement}
+Es ist möglich, Teams mit ihren Spielern zu erfassen, zu bearbeiten und zu löschen. Diese Funktionalität ermöglicht eine flexible Verwaltung der Teilnehmer vor Beginn des Turniers. Desweiteren können zur Laufzeit den Teams Spieler hinzugefügt oder entfernt werden, sodass die Teamzusammensetzung auch während des Turniers angepasst werden kann.
+\subsection{Visualisierung und algorithmische Bracket-Generierung}
+Ein wesentlicher Kernbestandteil des funktionsfähigen Frontends ist die visuelle und mathematische Erstellung des Turnierbaums direkt innerhalb der Benutzeroberfläche. Um eine klare Trennung zwischen der administrativen Verwaltung und der visuellen Repräsentation zu gewährleisten, nutzt die Applikation ein entkoppeltes Tab-Layout auf Basis eines. 
+
+Der Turnierbaum wird hierbei dynamisch über ein zweidimensionales Rasterlayout  berechnet und verankert. Basierend auf der Anzahl der initialen Begegnungen kalkuliert der Algorithmus mittels Bit-Shifting-Operationen den exakten vertikalen Versatz sowie die relative Schrittweite für jede nachfolgende Runde. Die einzelnen Spielpaarungen werden über dedizierte Widgets hierarchisch im Raster positioniert und zentriert, wodurch sich das visuelle Bracket proportional an die Turniergröße anpasst.
+
+\subsection{Datenhaltung und JSON-Schnittstelle}
+Für den Austausch und die Verarbeitung strukturierter Turnierdaten verfügt die Anwendung über ein lauffähiges Parsing-Modul. Dieses Modul importiert standardisierte JSON-Rohdaten und transformiert diese in native C++-Klassenobjekte. 
+
+Bei diesem Einleseprozess wird eine temporäre Lookup-Tabelle instanziiert, die textbasierte IDs relational den erzeugten Mannschaftsobjekten zuordnet. Der Interpreter durchläuft anschließend die einzelnen Turnierrunden, löst die Verknüpfungen der spielenden Teams über die Schlüsselwerte auf und ordnet sie den jeweiligen Match-Instanzen zu . Zudem ist das Auslesen und Setzen dynamischer Spielstände anhand der spezifischen IDs innerhalb des JSON-Objekts vollständig funktionsfähig umgesetzt.
+
+\subsection{Softwarearchitektur und Signal-Optimierung}
+Die technische Umsetzung im Frontend folgt einer ereignisgesteuerten Architektur, die über das Signal-Slot-Konzept von Qt realisiert ist. Eingaben über die grafische Oberfläche triggern direkte Modifikationen im globalen Datenvektor. 
+
+Um Performance-Einbrüche oder visuelles Flackern bei der Initialisierung größerer Datenmengen zu verhindern, implementiert die Steuerungslogik eine gezielte Signal-Blockierung. Während des automatisierten Ladens von Team- und Spielerlisten werden die GUI-Signale temporär deaktiviert und erst nach Abschluss der Vektor-Aktualisierung wieder freigegeben, was eine stabile und ressourcenschonende Benutzeroberfläche gewährleistet.
