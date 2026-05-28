@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "uuid.h"
+#include "uuid-gen.hpp"
 #include "json.hpp"
 
 class Team{
@@ -12,7 +13,7 @@ class Team{
     std::vector<std::string> players;
 
     public:
-    Team(std::string name);
+    Team(std::string name, uuids::uuid uuid = generateUuid());
 
     uuids::uuid getId() const;
     void addPlayer(const std::string& name);

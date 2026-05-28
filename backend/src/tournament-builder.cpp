@@ -2,6 +2,7 @@
 #include "tournament.hpp"
 #include "stage.hpp"
 #include "uuid.h"
+#include "json.hpp"
 #include "team.hpp"
 #include <algorithm>
 #include <memory>
@@ -34,7 +35,23 @@ TournamentBuilder& TournamentBuilder::addStages(std::vector<std::unique_ptr<Stag
     std::move(newStages.begin(), newStages.end(), std::back_inserter(stages));
     return *this;
 }
-TournamentBuilder& TournamentBuilder::loadJson(){
+using json = nlohmann::json;
+TournamentBuilder& TournamentBuilder::loadJson(json tournamentJson){
+
+    if(tournamentJson.contains("name")){
+        this->setName(tournamentJson["name"]);
+    }
+
+    if(tournamentJson.contains("teams") && tournamentJson["teams"].is_array()){
+        for(auto& teamJson : tournamentJson["teams"]){
+            std::string name = teamJson["name"].get<std::string>();
+            auto id = uuids::uuid::from_string(teamJson["id"].get<std::string>());
+            auto team = std::make_unique<Team>(name, id.value());
+
+            this->addTeam(std::move(team));
+        }
+    }
+
     return *this;
 }
 
