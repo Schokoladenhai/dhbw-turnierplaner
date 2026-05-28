@@ -1,10 +1,10 @@
 #include "team.hpp"
-#include "uuid-gen.hpp"
 #include "uuid.h"
 #include <string>
 #include "json.hpp"
+#include <utility>
 
-Team::Team(std::string name) : name(name), id(generateUuid()){}
+Team::Team(std::string name, uuids::uuid uuid) : name(name), id(std::move(uuid)){}
 
 uuids::uuid Team::getId() const {
     return id;

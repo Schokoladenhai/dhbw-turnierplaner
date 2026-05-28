@@ -56,3 +56,18 @@
 - **Gut gelaufen:** Alles
 - **Probleme/Blocker:** 
 - **Anpassungen für den nächsten Sprint:** Das laden eines turniers aus einer Json fehlt noch so wie weitere arten von stages neben ko-stage
+
+## Sprint 3: TournamentBuilder (Zeitraum: 07.05)
+**Ziel:** *Eine saubere Trennung von setup und manager Funktionen in Tournament*
+
+### 📋 Planung (Was haben wir uns vorgenommen?)
+- [x] TournamentBuilder Klasse
+
+### 📝 Review (Was wurde erreicht?)
+- **Status:** Erreicht
+- **Ergebnis:** Wir haben jetzt eine saubere Builder Klasse für unsere tournaments
+
+### 💡 Retrospektive (Was haben wir gelernt?)
+- **Gut gelaufen:** Alles lief reibungslos
+- **Probleme/Blocker:** 
+- **Anpassungen für den nächsten Sprint:** Es fehlen noch Sicherungen, wie das überprüfen der Eingaben in den Builder. Auch fehlt weiterhin die loadJson() Funktion

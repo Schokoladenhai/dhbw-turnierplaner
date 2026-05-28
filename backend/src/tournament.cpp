@@ -7,33 +7,22 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include <unordered_map>
 
-Tournament::Tournament(){}
-void Tournament::updateName(std::string newName){
-    name = newName;
+Tournament::Tournament(std::string name, std::unordered_map<uuids::uuid, std::unique_ptr<Team>> teams, std::vector<std::unique_ptr<Stage>> stages)
+    : name(std::move(name)), teams(std::move(teams)), stages(std::move(stages)), status(TOURNAMENT_READY), currentStageIndex(0)
+{
+    for(auto& stage : this->stages){
+        if(stage){
+            stage->setOnFinished([this](std::vector<uuids::uuid> teamsList){
+                this->runNextStage(teamsList);
+            });
+        }
+    }
 }
+
 TournamentStatus Tournament::getStatus(){
     return status;
-}
-void Tournament::pushStage(std::unique_ptr<Stage> stage){
-    if(stage){
-        stage->setOnFinished([this](std::vector<uuids::uuid> teams){this->runNextStage(teams);});
-        stages.push_back(std::move(stage));
-    }
-}
-void Tournament::popStage(){
-    stages.pop_back();
-}
-void Tournament::addTeam(std::unique_ptr<Team> team){
-    if(team){
-        uuids::uuid id = team->getId();
-        teams.emplace(id, std::move(team));
-    }
-}
-void Tournament::rmvTeam(uuids::uuid teamId){
-    if(!teamId.is_nil()){
-        teams.erase(teamId);
-    }
 }
 
 Stage* Tournament::getCurrentStage() const{
@@ -44,7 +33,7 @@ Stage* Tournament::getCurrentStage() const{
 }
 
 bool Tournament::start(){
-    if(stages.empty() || teams.empty()){
+    if(status != TOURNAMENT_READY){
         return false;
     }
     std::vector<uuids::uuid> teamIds;
@@ -98,10 +87,9 @@ json Tournament::toJson()const{
         Team* team = teamUPtr.get();
         if(team != nullptr){
             json teamJson = team->toJson();
-            j["matches"].push_back(teamJson);
+            j["teams"].push_back(teamJson);
         }
     }
 
     return j;
 }
-void Tournament::loadFromJson(){}
