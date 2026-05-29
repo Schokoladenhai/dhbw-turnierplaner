@@ -41,9 +41,21 @@ set(CORE_SOURCES
 add_library(TurnierTigerCore STATIC ${CORE_SOURCES} ${HEADER_FILES})
 target_include_directories(TurnierTigerCore PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")
 
+# BEHEBUNG LINKER-FEHLER: Bindet die Windows-Socket-API (ws2_32) an die Core-Bibliothek,
+# da dort die Netzwerk-Logik (httplib, API-Controller, SSE) liegt.
+if(WIN32)
+    target_link_libraries(TurnierTigerCore PUBLIC ws2_32)
+endif()
+
 # 2. Das Hauptprogramm (Executable)
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE TurnierTigerCore)
+
+# BEHEBUNG RUNTIME-FEHLER: Statisches Linken der GCC/MinGW-Laufzeitbibliotheken,
+# um den "Einsprungpunkt nicht gefunden"-Fehler (DLL-Hell) zu lösen.
+if(MINGW)
+    target_link_options(${PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++)
+endif()
 
 # ==========================================
 # GoogleTest Setup
@@ -70,6 +82,11 @@ target_link_libraries(RunTests
     TurnierTigerCore
     GTest::gtest_main
 )
+
+# Auch für die Test-Executable die Laufzeitumgebung statisch linken
+if(MINGW)
+    target_link_options(RunTests PRIVATE -static -static-libgcc -static-libstdc++)
+endif()
 
 # Test-Erkennung für CTest aktivieren
 include(GoogleTest)

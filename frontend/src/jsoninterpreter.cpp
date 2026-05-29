@@ -65,41 +65,58 @@ void jsontoclasses(std::string& rawjson){
     if (j.contains("stages") && j["stages"].is_array()) {
         for (const auto& stageJson : j["stages"]) {
             
-            // Überprüfen, ob die Stage ein valides "matches"-Objekt besitzt
             if (stageJson.contains("matches") && stageJson["matches"].is_object()) {
                 
-                // .items() erlaubt das Iterieren über Key-Value-Paare eines JSON-Objekts
-                // matchKey ist z.B. "1", matchJson enthält das eigentliche Match-Datenobjekt
                 for (const auto& [matchKey, matchJson] : stageJson["matches"].items()) {
                     
                     std::string matchIdStr = matchJson.at("id").get<std::string>();
                     uuids::uuid matchUuid = uuids::uuid::from_string(matchIdStr).value_or(uuids::uuid{});
 
-                    // Instanziierung des Matches (Key wird als Match-Name adaptiert)
                     Match match("Match_" + matchKey, matchUuid);
 
-                    // Extraktion der referenzierten Team-IDs als String
                     std::string team1Id = matchJson.at("team1").get<std::string>();
                     std::string team2Id = matchJson.at("team2").get<std::string>();
 
-                    // Relationen auflösen: Teams aus der Lookup-Map holen und dem Match hinzufügen
-                    // .at() wirft eine Exception, falls das Backend eine ungültige ID liefert
-                    match.addTeam(teamLookup.at(team1Id));
-                    match.addTeam(teamLookup.at(team2Id));
+                    // KORREKTUR: Absicherung des Map-Zugriffs mittels .contains()
+                    if (teamLookup.contains(team1Id)) {
+                        match.addTeam(teamLookup.at(team1Id));
+                    } else {
+                        uuids::uuid emptyUuid = uuids::uuid::from_string(team1Id).value_or(uuids::uuid{});
+                        match.addTeam(Team("Offen / TBD", emptyUuid));
+                    }
+
+                    if (teamLookup.contains(team2Id)) {
+                        match.addTeam(teamLookup.at(team2Id));
+                    } else {
+                        uuids::uuid emptyUuid = uuids::uuid::from_string(team2Id).value_or(uuids::uuid{});
+                        match.addTeam(Team("Offen / TBD", emptyUuid));
+                    }
 
                     // Dynamische Keys im Score-Objekt auslesen
                     if (matchJson.contains("score") && matchJson["score"].is_object()) {
                         auto const& scoreJson = matchJson["score"];
                         
-                        // Da die Keys im JSON exakt den Team-IDs entsprechen, 
-                        // nutzen wir die Strings team1Id und team2Id als Abfrage-Keys
-                        uint8_t score1 = scoreJson.at(team1Id).get<uint8_t>();
-                        uint8_t score2 = scoreJson.at(team2Id).get<uint8_t>();
+                        // KORREKTUR: Auch hier den Zugriff absichern, falls IDs im Score fehlen
+                        uint8_t score1 = scoreJson.contains(team1Id) ? scoreJson.at(team1Id).get<uint8_t>() : 0;
+                        uint8_t score2 = scoreJson.contains(team2Id) ? scoreJson.at(team2Id).get<uint8_t>() : 0;
                         
                         match.setScore(score1, score2);
                     }
 
-                    // Das fertig konfigurierte Match in den globalen Vektor pushen
+                    if (matchJson.contains("status")) {
+                        if (matchJson.at("status").is_string()) {
+                            // Verarbeitung, wenn das Backend den serialisierten String sendet ("RUNNING", "FINISHED")
+                            match.status = matchJson.at("status").get<std::string>();
+                        } 
+                        else if (matchJson.at("status").is_number()) {
+                            // Fallback-Logik, falls das Backend den reinen Integer-Wert (0, 1, 2) mitschickt
+                            int statusInt = matchJson.at("status").get<int>();
+                            if (statusInt == 0) match.status = "WAITING";
+                            else if (statusInt == 1) match.status = "RUNNING";
+                            else if (statusInt == 2) match.status = "FINISHED";
+                        }
+                    }
+
                     matches.push_back(match);
                 }
             }
