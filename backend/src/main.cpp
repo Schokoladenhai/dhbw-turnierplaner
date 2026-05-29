@@ -54,20 +54,17 @@ int main() {
     // ==========================================
     // 2. WEBSERVER STARTEN
     // ==========================================
+    // 1. Server & SSE vorbereiten
     httplib::Server svr;
-
-    // Den Controller instanziieren.
-    // .get() holt den rohen Pointer aus dem unique_ptr, ohne den Besitz aufzugeben.
-    MatchApiController matchApi(dummyTournament.get());
-
-    // Routen am Server registrieren
+    SseUpdate sseStream;
+    // 2. Controller mit Pointer auf SSE erstellen
+    MatchApiController matchApi(dummyTournament.get(), &sseStream);
+    // 3. Beide Routen am Server registrieren
+    sseStream.registerRoutes(svr);
     matchApi.registerRoutes(svr);
-
-    std::cout << "Server startet und wartet auf Anfragen..." << std::endl;
-    std::cout << "Sende POST Requests an: http://localhost:8080" << MatchApiController::ENDPOINT << std::endl;
-
-    // Startet die Server-Schleife (blockiert den Thread, bis das Programm beendet wird)
+    // 4. Starte den Server
     svr.listen("0.0.0.0", 8080);
+
 
     return 0;
 }
