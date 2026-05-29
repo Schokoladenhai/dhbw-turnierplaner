@@ -33,8 +33,8 @@ class Match{
     public:
     Match();
 
-    void setTeam1(uuids::uuid team1Id);
-    void setTeam2(uuids::uuid team2Id);
+    void setTeam1(uuids::uuid newTeam1Id);
+    void setTeam2(uuids::uuid newTeam2Id);
     uuids::uuid getTeam1() const;
     uuids::uuid getTeam2() const;
     void setnewScore(const Score& newScore);
