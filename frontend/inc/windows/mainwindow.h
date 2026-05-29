@@ -24,7 +24,7 @@ public:
     void updateTournamentUi();
 
 signals:
-    // KORREKTUR: Signal zur Weiterleitung der Update-Anforderung an die main.cpp/NetworkController
+    //Signal zur Weiterleitung der Update-Anforderung an die main.cpp/NetworkController
     void requestMatchUpdate(const QString &matchId, int score1, int score2, int status);
 
 private:

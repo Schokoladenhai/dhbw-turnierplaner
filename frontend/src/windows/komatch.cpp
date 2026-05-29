@@ -14,13 +14,13 @@ KoMatch::KoMatch(const Match &match, QWidget *parent)
     ui->t1score->setValue(m_match.score[0]);
     ui->t2score->setValue(m_match.score[1]);
 
-    // 1. Identifikation von Freilosen / unvollständigen Paarungen via Null-UUID
+    // Identifikation von Freilosen / unvollständigen Paarungen via Null-UUID
     std::string nullUuid = "00000000-0000-0000-0000-000000000000";
     bool t1Missing = (uuids::to_string(m_match.team1.getId()) == nullUuid || m_match.team1.getName().empty());
     bool t2Missing = (uuids::to_string(m_match.team2.getId()) == nullUuid || m_match.team2.getName().empty());
     bool isIncomplete = (t1Missing != t2Missing); // Genau ein Gegner fehlt noch
 
-    // 2. Erweiterte Drei-Wege-Zustandsmaschine inklusive flexibler Freilos-Logik
+    // Drei-Wege-Zustandsmaschine inklusive flexibler Freilos-Logik
     if (m_match.status == "FINISHED") {
         m_state = "closed";
         ui->pushButton->setText("Beendet");
@@ -32,7 +32,7 @@ KoMatch::KoMatch(const Match &match, QWidget *parent)
         // Freilos ist aktiv: Das vorhandene Team ist weiter, Match bleibt manipulierbar
         m_state = "bye_active";
         ui->pushButton->setText("Aufheben");
-        ui->pushButton->setEnabled(true);   // WICHTIG: Nicht sperren!
+        ui->pushButton->setEnabled(true);   
         ui->t1score->setEnabled(false);      
         ui->t2score->setEnabled(false);
     }

@@ -4,7 +4,7 @@
 #include "main.hpp"
 #include <fstream>
 #include "jsoninterpreter.hpp"
-#include "networkcontroller.hpp" // Erforderlich für die API-Anbindung
+#include "networkcontroller.hpp" 
 #include "windows/mainwindow.h"
 
 std::vector<Team> teams;
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     // Instanziierung des Netzwerk-Controllers auf dem Stack
     NetworkController netController;
 
-    // 1. Reaktiver Empfangskanal (SSE): Vom Webserver -> Frontend
+    //Reaktiver Empfangskanal (SSE): Vom Webserver -> Frontend
     QObject::connect(&netController, &NetworkController::tournamentUpdated, &app, [&w](const std::string &rawJson) {
         std::string editableJson = rawJson;
         
@@ -34,10 +34,10 @@ int main(int argc, char *argv[]) {
         w.updateTournamentUi();
     });
 
-    // 2. Ergebnis-Rückkanal (POST): Von der GUI (MainWindow) -> Netzwerk-Controller
+    // Ergebnis-Rückkanal (POST): Von der GUI (MainWindow) -> Netzwerk-Controller
     QObject::connect(&w, &MainWindow::requestMatchUpdate, &netController, &NetworkController::sendMatchUpdate);
 
-    netController.triggerInitialBroadcast(); // Optional: Initialer Trigger für die UI, um sofortige Sichtbarkeit zu gewährleisten
+    netController.triggerInitialBroadcast(); //Initialer Trigger für die UI, um sofortige Sichtbarkeit zu gewährleisten
 
     // Asynchronen HTTP-GET-Request für den Server-Sent-Events-Stream initiieren
     netController.startSseStream("http://127.0.0.1:8080");

@@ -4,11 +4,11 @@
 #include <QGridLayout>
 #include <QDebug>
 #include <QListWidgetItem>
-#include <algorithm> // Notwendig für std::find_if
+#include <algorithm> 
 
 extern int numberOfStages;
 extern std::vector<Team> teams;
-extern std::vector<Match> matches; // Zugriff auf den globalen Netzwerk-Match-Vektor
+extern std::vector<Match> matches; 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
     tournamentPage = firstTab; 
     bracketLayout = new QGridLayout(tournamentPage);
     
-    // 1. Signal-Slot-Verbindung für die Teambox-Indexänderung
+    //Signal-Slot-Verbindung für die Teambox-Indexänderung
     connect(ui->teambox, &QComboBox::currentIndexChanged, this, [this](int index) {
         ui->playerlist->clear();
         
@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
-    // 2. Team hinzufügen
+    //Team hinzufügen
     connect(ui->btnnewteam, &QPushButton::clicked, this, [this]() {
         QString qTeamName = ui->linenewteam->text().trimmed();
         if (qTeamName.isEmpty()) return;
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->teambox->setCurrentIndex(ui->teambox->count() - 1);
     });
 
-    // 3. Team löschen
+    //Team löschen
     connect(ui->btndeleteteam, &QPushButton::clicked, this, [this]() {
         int currentIndex = ui->teambox->currentIndex();
         if (currentIndex < 0 || currentIndex >= static_cast<int>(teams.size())) return;
@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
     });
 
-    // 4. Spieler hinzufügen
+    // Spieler hinzufügen
     connect(ui->btnaddplayer, &QPushButton::clicked, this, [this]() {
         int currentTeamIndex = ui->teambox->currentIndex();
         if (currentTeamIndex < 0) return;
@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->teamsline->clear();
     });
 
-    // 5. Spieler löschen
+    // Spieler löschen
     connect(ui->btndeleteplayer, &QPushButton::clicked, this, [this]() {
         int currentTeamIndex = ui->teambox->currentIndex();
         int currentPlayerIndex = ui->playerlist->currentRow();
@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
         delete ui->playerlist->takeItem(currentPlayerIndex);
     });
 
-    // 6. Speichern-Button (Diagnose-Ausgabe)
+    //Speichern-Button (Diagnose-Ausgabe)
     connect(ui->btnsave, &QPushButton::clicked, this, [this]() {
         qDebug() << "Globaler Vektor status - Anzahl Teams:" << teams.size();
     });
@@ -108,16 +108,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateTournamentUi() 
 {
-    // 1. Bereinigung des alten Layouts zur Vermeidung von Widget-Überlagerungen und Speicherlecks
+    // Bereinigung des alten Layouts zur Vermeidung von Widget-Überlagerungen und Speicherlecks
     QLayoutItem *item;
     while ((item = bracketLayout->takeAt(0)) != nullptr) {
         if (item->widget()) {
-            delete item->widget(); // Löscht das Qt-Widget sicher vom Heap
+            delete item->widget();
         }
         delete item;
     }
 
-    // 2. ComboBox-Inhalte zurücksetzen und mit aktuellen Serverdaten befüllen
+    // ComboBox-Inhalte zurücksetzen und mit aktuellen Serverdaten befüllen
     ui->teambox->blockSignals(true); 
     ui->teambox->clear();
     ui->playerlist->clear();
@@ -127,7 +127,7 @@ void MainWindow::updateTournamentUi()
     }
     ui->teambox->blockSignals(false);
 
-    // Initialen Fokus nach Reset wiederherstellen
+    // Initialen Zustand nach Reset wiederherstellen
     if (!teams.empty()) {
         ui->teambox->setCurrentIndex(0);
         const Team& firstTeam = teams[0];
@@ -136,7 +136,7 @@ void MainWindow::updateTournamentUi()
         }
     }
 
-    // 3. Neuaufbau des Turnierbaums mittels mathematisch präziser Prädikat-Zuordnung
+    // Neuaufbau des Turnierbaums mittels mathematisch präziser Prädikat-Zuordnung
     int initialMatches = numberOfStages; 
     int matchesInRound = initialMatches;
 
@@ -171,12 +171,12 @@ void MainWindow::updateTournamentUi()
             int matchKey = matchesAbove + 1 + i;
             std::string targetMatchName = "Match_" + std::to_string(matchKey);
 
-            // Prädikatsbasierte Suche im globalen Vektor mittels std::find_if
+            //Suche im globalen Vektor
             auto it = std::find_if(matches.begin(), matches.end(), [&targetMatchName](const Match& m) {
                 return m.getName() == targetMatchName;
             });
 
-            // Initialisierung des lokalen Datenmodells (Standardmäßig als TBD-Platzhalter)
+            // Initialisierung des lokalen matches
             Match currentMatch(targetMatchName, uuids::uuid{});
 
             if (it != matches.end()) {
@@ -192,7 +192,7 @@ void MainWindow::updateTournamentUi()
             // Instanziierung des Widgets mit dem explizit gemappten Match-Modell als Konstruktor-Argument
             KoMatch* komatch = new KoMatch(currentMatch, tournamentPage);
             
-            // KORREKTUR: Signal-Brücke schlagen zur Weiterleitung an MainWindow-Klassenebene
+            //Signal-Brücke schlagen zur Weiterleitung an MainWindow-Klassenebene
             connect(komatch, &KoMatch::matchResultChanged, this, &MainWindow::requestMatchUpdate);
             
             bracketLayout->addWidget(komatch, targetRow, round, Qt::AlignCenter);

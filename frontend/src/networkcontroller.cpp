@@ -43,7 +43,7 @@ void NetworkController::handleSseReadyRead() {
     while (sseReply->canReadLine()) {
         QByteArray line = sseReply->readLine().trimmed();
         
-        // Macht die unsichtbaren 3-Sekunden-Pings (":") auf der Konsole sichtbar
+        
         qDebug() << "[NetworkController] Raw-Zeile vom Server:" << line;
 
         if (line.startsWith("data: ")) {
@@ -65,7 +65,7 @@ void NetworkController::handleSseFinished() {
     }
 }
 
-// NEU: Implementierung des Ergebnis-Rückkanals via HTTP-POST
+// Ergebnis-Rückkanals
 void NetworkController::sendMatchUpdate(const QString &matchId, int points1, int points2, int statusEnum) {
     QUrl url("http://localhost:8080/api/match/update"); 
     QNetworkRequest request(url);
@@ -76,7 +76,7 @@ void NetworkController::sendMatchUpdate(const QString &matchId, int points1, int
     jsonPayload["points1"] = std::to_string(points1);
     jsonPayload["points2"] = std::to_string(points2);
     
-    // KORREKTUR: Numerischen Wert in den vom Server erwarteten Enum-String mappen
+    //Numerischen Wert in den vom Server erwarteten Enum-String mappen
     std::string statusStr = "WAITING";
     if (statusEnum == 1) statusStr = "RUNNING";
     else if (statusEnum == 2) statusStr = "FINISHED";

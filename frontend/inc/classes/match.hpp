@@ -34,9 +34,9 @@ public:
 
 
 enum MatchStatus{
-    MATCH_WAITING,  ///< Match wartet auf Teams oder den Start.
-    MATCH_RUNNING,  ///< Match läuft aktuell.
-    MATCH_FINISHED, ///< Match ist beendet und hat ein Ergebnis.
-    MATCH_SKIPED    ///< Match wurde übersprungen (z.B. durch ein Freilos/Bye).
+    MATCH_WAITING,  // Match wartet auf Teams oder den Start.
+    MATCH_RUNNING,  // Match läuft aktuell.
+    MATCH_FINISHED, //Match ist beendet und hat ein Ergebnis.
+    MATCH_SKIPED    // Match wurde übersprungen 
 };
 #endif // TEAM_H

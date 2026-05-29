@@ -33,7 +33,7 @@ void jsontoclasses(std::string& rawjson){
     // Lokale Lookup-Tabelle für die relationale Zuordnung der Teams
     std::unordered_map<std::string, Team> teamLookup;
 
-    // 2. Teams extrahieren
+    //Teams extrahieren
     if (j.contains("teams") && j["teams"].is_array()) {
         for (const auto& teamJson : j["teams"]) {
             std::string idStr = teamJson.at("id").get<std::string>();
@@ -60,8 +60,7 @@ void jsontoclasses(std::string& rawjson){
         }
     }
 
-    // Hier folgt Schritt 3: Stages und Matches
-    // 3. Stages und eingebettete Matches extrahieren
+    // Stages und eingebettete Matches extrahieren
     if (j.contains("stages") && j["stages"].is_array()) {
         for (const auto& stageJson : j["stages"]) {
             
@@ -77,7 +76,7 @@ void jsontoclasses(std::string& rawjson){
                     std::string team1Id = matchJson.at("team1").get<std::string>();
                     std::string team2Id = matchJson.at("team2").get<std::string>();
 
-                    // KORREKTUR: Absicherung des Map-Zugriffs mittels .contains()
+                    //Absicherung des Map-Zugriffs mittels .contains()
                     if (teamLookup.contains(team1Id)) {
                         match.addTeam(teamLookup.at(team1Id));
                     } else {
@@ -92,11 +91,11 @@ void jsontoclasses(std::string& rawjson){
                         match.addTeam(Team("Offen / TBD", emptyUuid));
                     }
 
-                    // Dynamische Keys im Score-Objekt auslesen
+                    // Keys im Score-Objekt auslesen
                     if (matchJson.contains("score") && matchJson["score"].is_object()) {
                         auto const& scoreJson = matchJson["score"];
                         
-                        // KORREKTUR: Auch hier den Zugriff absichern, falls IDs im Score fehlen
+                        // Zugriff absichern, falls IDs im Score fehlen
                         uint8_t score1 = scoreJson.contains(team1Id) ? scoreJson.at(team1Id).get<uint8_t>() : 0;
                         uint8_t score2 = scoreJson.contains(team2Id) ? scoreJson.at(team2Id).get<uint8_t>() : 0;
                         

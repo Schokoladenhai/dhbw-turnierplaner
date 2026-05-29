@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::KoMatch *ui;
     Match m_match;
-    QString m_state = "open"; // Lokaler Zustand: "open" oder "closed"
+    QString m_state = "open"; 
 };
 
 #endif // KOMATCH_H
