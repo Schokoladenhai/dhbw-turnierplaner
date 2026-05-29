@@ -33,8 +33,7 @@ bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore,
             auto itTree = std::find(matchTree.begin(), matchTree.end(), currentMatch);
             if(itTree != matchTree.end()){
                 int oldIndex = std::distance(matchTree.begin(), itTree) + 1;
-                int newIndex = (oldIndex >> 1) - 1;
-                if(newIndex == 0){
+                if(oldIndex == 0){
                     auto winner = getAdvancingTeams();
                     if(winner[0].is_nil()){
                         return false;
@@ -44,13 +43,16 @@ bool KoStage::matchUpdate(const uuids::uuid currentMatch, const Score& newScore,
                     }
                     return true;
                 }
-                auto itNewMatch = matches.find(matchTree[newIndex]);
-                if(itNewMatch != matches.end()){
-                    Match* newMatch = itNewMatch->second.get();
-                    if(newMatch->getTeam1().is_nil()){
-                        newMatch->setTeam1(winner);
-                    }else{
-                        newMatch->setTeam2(winner);
+                if(oldIndex != 0){
+                    int newIndex = (oldIndex >> 1) - 1;
+                    auto itNewMatch = matches.find(matchTree[newIndex]);
+                    if(itNewMatch != matches.end()){
+                        Match* newMatch = itNewMatch->second.get();
+                        if(newMatch->getTeam1().is_nil()){
+                            newMatch->setTeam1(winner);
+                        }else{
+                            newMatch->setTeam2(winner);
+                        }
                     }
                 }
             }

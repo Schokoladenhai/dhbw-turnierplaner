@@ -18,6 +18,7 @@ set(HEADER_FILES
     inc/group-stage.hpp
     inc/json.hpp
     inc/tournament-builder.hpp
+    inc/match-api-controller.hpp
 )
 
 # Core Sources (OHNE main.cpp!)
@@ -30,6 +31,7 @@ set(CORE_SOURCES
     src/ko-stage.cpp
     src/group-stage.cpp
     src/tournament-builder.cpp
+    src/match-api-controller.cpp
 )
 
 # 1. Core-Bibliothek erstellen (für Server UND Tests nutzbar)
