@@ -6,14 +6,14 @@
 
 Match::Match() : id(generateUuid()){}
 
-void Match::setTeam1(uuids::uuid team1Id){
+void Match::setTeam1(uuids::uuid newTeam1Id){
     if(status == MATCH_WAITING){
-        this->team1Id = team1Id;
+        this->team1Id = newTeam1Id;
     }
 }
-void Match::setTeam2(uuids::uuid team2Id){
+void Match::setTeam2(uuids::uuid newTeam2Id){
     if(status == MATCH_WAITING){
-        this->team2Id = team2Id;
+        this->team2Id = newTeam2Id;
     }
 }
 
