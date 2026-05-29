@@ -9,5 +9,5 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # 3. Unterprojekte einbinden
-#add_subdirectory(backend)
-add_subdirectory(frontend)
+add_subdirectory(backend)
+#add_subdirectory(frontend)
