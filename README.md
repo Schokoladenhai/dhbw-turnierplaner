@@ -11,3 +11,6 @@ cmake --build build
 # 3. Fertige Bins liegen unter ./build/bin
 ./build/bin/TurnierTiegerServer
 ./build/bin/TurnierTiegerClient
+
+
+

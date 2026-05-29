@@ -83,11 +83,3 @@ target_link_libraries(RunTests
     GTest::gtest_main
 )
 
-# Auch für die Test-Executable die Laufzeitumgebung statisch linken
-if(MINGW)
-    target_link_options(RunTests PRIVATE -static -static-libgcc -static-libstdc++)
-endif()
-
-# Test-Erkennung für CTest aktivieren
-include(GoogleTest)
-gtest_discover_tests(RunTests)

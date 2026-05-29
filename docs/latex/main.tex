@@ -10,6 +10,26 @@
 \usepackage{hyperref}
 \usepackage{titlesec}
 
+\usepackage{listings}
+\usepackage{xcolor}
+
+\usepackage{lmodern}
+\usepackage{tikz}
+\usepackage{array}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric, calc}
+
+
+\lstdefinelanguage{json}{
+    basicstyle=\small\ttfamily,
+    string=[b]",
+    stringstyle=\color{red!60!black},
+    comment=[l]{//},
+    commentstyle=\color{gray},
+    morestring=[d]',
+    showstringspaces=false,
+    breaklines=true
+}
+
 % Layout-Einstellungen
 \geometry{margin=2.5cm}
 \renewcommand{\familydefault}{\sfdefault} % Serifenlose Schrift für modernen Look
@@ -33,5 +53,6 @@
 \include{lastenheft}
 \include{pflichtenheft}
 \include{Architekturmuster}
+\include{Klassendiagramme}
 
 \end{document}

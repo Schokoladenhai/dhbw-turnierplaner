@@ -19,7 +19,7 @@ int main() {
     myTeams.push_back(std::make_unique<Team>("Team Alpha"));
     myTeams.push_back(std::make_unique<Team>("Team Bravo"));
     myTeams.push_back(std::make_unique<Team>("Die wilden Pointer"));
-    myTeams.push_back(std::make_unique<Team>("FC Segfault"));
+    //myTeams.push_back(std::make_unique<Team>("FC Segfault"));
 
     std::vector<uuids::uuid> teamIds;
     for (const auto& team : myTeams) {

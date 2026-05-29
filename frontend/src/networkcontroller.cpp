@@ -80,9 +80,9 @@ void NetworkController::sendMatchUpdate(const QString &matchId, int points1, int
     std::string statusStr = "WAITING";
     if (statusEnum == 1) statusStr = "RUNNING";
     else if (statusEnum == 2) statusStr = "FINISHED";
-    else if (statusEnum == 3) statusStr = "SKIPPED";
+    else if (statusEnum == 3) statusStr = "SKIPPED"; // Mappt auf serverseitiges MATCH_SKIPED
     
-    jsonPayload["status"] = statusStr; // Wird als String serialisiert (z.B. "status":"RUNNING")
+    jsonPayload["status"] = statusStr;
 
     QByteArray bodyData = QByteArray::fromStdString(jsonPayload.dump());
     qDebug() << "[NetworkController] Sende korrigierten POST-Payload:" << bodyData;

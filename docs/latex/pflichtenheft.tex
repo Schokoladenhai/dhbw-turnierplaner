@@ -1,1 +1,58 @@
 \section{Pflichtenheft}
+\subsection{Architektur}
+Die Web-App wird auf einer Client-Server-Architektur basieren. Der Server wird die Geschäftslogik und Datenverwaltung übernehmen, während der Client die Benutzeroberfläche bereitstellt.
+\begin{itemize}
+    \item Frontend: Desktopanwendung in c++ mit Qt-Framework.
+    \item Backend: REST-API in c++ 
+    \item Kommunikationskanäle: HTTP/HTTPS für die Kommunikation zwischen Frontend und Backend. Im Frontend wird aufgund der leichteren integratin mit QNetwork gearbeitet
+\end{itemize}
+\subsection{Technische Umstzung Frontend}
+Eingehende Datenpakete werden im Network Controller deserialisiert und dann mit jsontoclasses in die entsprechenden Klassen umgewandelt. Um Memory Leaks zu verhindern wird bei jeder Aktualisierung der Daten die komplette alte Instanz gelöscht, was bei der gerinegn DAtenmenge gut möglich ist.
+
+\subsection{Schnittstellen}
+Die Schnittstellen zwischen Frontend und Backend werden über REST-API-Endpunkte definiert. Diese Endpunkte ermöglichen die Kommunikation und den Datenaustausch zwischen den beiden Komponenten. Spezifisch werden JSONS übertragen, die folgend strukturiert sind:
+Für die Kommunikation Backend $\rightarrow$ Frontend
+\begin{lstlisting}[language=json, firstnumber=1, numbers=left]
+    {
+    "name": "",
+    "status": "",
+    "stageindex": "",
+    "stages": [
+        {
+            "type": "",
+            "matches": {
+                "1": {
+                    "id": "",
+                    "status": "",
+                    "team1": "",
+                    "team2": "",
+                    "score": {
+                        "<id die in team1 liegt>": "",
+                        "<id die in team2 liegt>": ""
+                    }
+                }
+            }
+        }
+    ],
+    "teams": [
+        {
+            "id": "",
+            "name": "",
+            "players": ["", "", ""]
+        }
+    ]
+}
+
+    \end{lstlisting}
+
+    Für die Kommunikation Backend $\leftarrow$ Frontend
+    \begin{lstlisting}[language=json, firstnumber=1, numbers=left]
+        {
+    "id": "",
+    "status": "",
+    "points1": "",
+    "points2": ""
+}
+
+        \end{lstlisting}
+

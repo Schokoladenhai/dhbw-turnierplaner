@@ -41,3 +41,17 @@ target_link_libraries(frontend_app PRIVATE
     Qt6::Network 
     nlohmann_json::nlohmann_json
 )
+
+if(WIN32)
+    get_target_property(Qt6_CORELIB_RELEASE_LOCATION Qt6::Core LOCATION)
+    get_filename_component(QT_BIN_DIR "${Qt6_CORELIB_RELEASE_LOCATION}" DIRECTORY)
+    find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BIN_DIR}")
+
+    if(WINDEPLOYQT_EXECUTABLE)
+        add_custom_command(TARGET frontend_app POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E env PATH="${QT_BIN_DIR}"
+            ${WINDEPLOYQT_EXECUTABLE} --compiler-runtime "$<TARGET_FILE:frontend_app>"
+            COMMENT "Führe automatischen windeployqt-Aufruf für das Frontend aus..."
+        )
+    endif()
+endif()
